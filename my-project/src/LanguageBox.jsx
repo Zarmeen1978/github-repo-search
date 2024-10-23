@@ -10,6 +10,7 @@ const LanguageBox = () => {
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  //setting the accesstoken in environment variable
   const apiToken = import.meta.env.VITE_API_KEY;
   console.log(apiToken);
   const octokit = new Octokit({ auth: apiToken });
