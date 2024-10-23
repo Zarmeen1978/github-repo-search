@@ -1,18 +1,19 @@
-import  { useState, useEffect,useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Octokit } from '@octokit/rest';
 import './App.css'; // Optional: For styling
 import { MyContext } from './MyContext';
 
 const LanguageBox = () => {
- // const { myState,setMyState} = useContext(MyContext);//this state is created for setting theaccesstoken
+  // const { myState, setMyState } = useContext(MyContext); // This state is created for setting the access token
   const [languages, setLanguages] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const apiToken = import.meta.env.VITE_API_KEY;
-  console.log(apiToken)
+  console.log(apiToken);
   const octokit = new Octokit({ auth: apiToken });
+
   useEffect(() => {
     const fetchLanguages = async () => {
       try {
@@ -35,15 +36,19 @@ const LanguageBox = () => {
     }
     setLoading(true);
     setMessage('');
-      
+
     try {
       const response = await octokit.request('GET /user/repos', {
+        per_page: 100,
         headers: {
           Accept: 'application/vnd.github.v3+json',
         },
       });
 
-      const filteredRepos = response.data.filter(repo => repo.language === selectedLanguage);
+      const filteredRepos = response.data.filter(repo => 
+        repo.language === selectedLanguage && repo.owner.login === 'Zarmeen1978' 
+      );
+
       setRepos(filteredRepos);
       setMessage(`Found ${filteredRepos.length} repositories.`);
     } catch (error) {
@@ -82,7 +87,7 @@ const LanguageBox = () => {
         </div>
       ) : (
         <div style={{ backgroundColor: 'lightgrey', width: '80%', height: '70%', borderRadius: '5px',
-                      color: 'black', textAlign: 'center', paddingTop: '12px', marginTop: '14px',marginBottom:'30px',
+                      color: 'black', textAlign: 'center', paddingTop: '12px', marginTop: '14px', marginBottom: '30px',
                     }}>
           <p>{message}</p>
           <ul>
