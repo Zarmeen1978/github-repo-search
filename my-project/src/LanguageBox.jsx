@@ -1,34 +1,25 @@
-import { useState, useEffect, useContext } from 'react';
-import { Octokit } from '@octokit/rest';
-import './App.css'; // Optional: For styling
-import { MyContext } from './MyContext';
-
+import { useState, useEffect} from 'react';
+import './App.css'; 
+import { fetchLanguages } from './api/languageApi';
+import { getRepo } from './api/getRepo';
 const LanguageBox = () => {
-  // const { myState, setMyState } = useContext(MyContext); // This state is created for setting the access token
   const [languages, setLanguages] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-  //setting the accesstoken in environment variable
-  const apiToken = import.meta.env.VITE_API_KEY;
-  console.log(apiToken);
-  const octokit = new Octokit({ auth: apiToken });
-
   useEffect(() => {
-    const fetchLanguages = async () => {
-      try {
-        const response = await fetch(
-          'https://raw.githubusercontent.com/kamranahmedse/githunt/master/src/components/filters/language-filter/languages.json'
-        );
-        const data = await response.json();
-        setLanguages(data);
-      } catch (error) {
-        console.error('Error fetching languages:', error);
-      }
+    const loadLanguages = async () => {
+        try {
+            const data = await fetchLanguages();
+            setLanguages(data);
+        } catch (err) {
+            Error(err.message);
+        }
     };
-    fetchLanguages();
-  }, []);
+
+    loadLanguages();
+}, []);
 
   const fetchRepositories = async () => {
     if (!selectedLanguage) {
@@ -37,15 +28,9 @@ const LanguageBox = () => {
     }
     setLoading(true);
     setMessage('');
-
     try {
-      const response = await octokit.request('GET /user/repos', {
-        per_page: 100,
-        headers: {
-          Accept: 'application/vnd.github.v3+json',
-        },
-      });
-
+      const response = await getRepo();
+      console.log(response);
       const filteredRepos = response.data.filter(repo => 
         repo.language === selectedLanguage && repo.owner.login === 'Zarmeen1978' 
       );
@@ -81,15 +66,11 @@ const LanguageBox = () => {
         Search
       </button>
       {loading ? (
-        <div style={{ backgroundColor: 'lightgrey', width: '50vh', height: '200px', borderRadius: '5px',
-                      color: 'black', textAlign: 'center', paddingTop: '12px', fontSize: '20px', marginTop: '14px'
-                    }}>
+        <div className='container'>
           <p>Loading...</p>
         </div>
       ) : (
-        <div style={{ backgroundColor: 'lightgrey', width: '80%', height: '70%', borderRadius: '5px',
-                      color: 'black', textAlign: 'center', paddingTop: '12px', marginTop: '14px', marginBottom: '30px',
-                    }}>
+        <div className='container-box'>
           <p>{message}</p>
           <ul>
             {repos.map((repo) => (

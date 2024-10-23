@@ -22,6 +22,28 @@
   padding: 0.5rem;
   font-size: 1rem;
 }
+.container{
+  background-color: lightgrey;
+    width: 50vh; 
+     height: 200px;
+      border-radius: 5px;
+    color: black; 
+    text-align: center; 
+    padding-top: 12px;
+     font-size: 20px;
+     margin-top: 14px;
+}
+.container-box{
+  background-color: lightgrey;
+    width: 100vh; 
+     height: 200px;
+      border-radius: 5px;
+    color: black; 
+    text-align: center; 
+    padding-top: 12px;
+     font-size: 20px;
+     margin-top: 14px;
+}
 
 
 

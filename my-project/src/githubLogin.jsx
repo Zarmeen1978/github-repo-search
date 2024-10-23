@@ -1,8 +1,8 @@
 
  import  {  useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Octokit } from '@octokit/core';
-import { MyContext } from './MyContext';//git push -u -f origin master
+import { MyContext } from './MyContext';
+import { gitPost } from './api/gitPost';
 const GitHubLogin = () => {
 const[myState,setMyState]=useState();
   const clientId = 'Ov23liXC6ivHrlbFX1SI';
@@ -23,21 +23,11 @@ const[myState,setMyState]=useState();
 
 useEffect(() => {
   const urlParams = new URLSearchParams(window.location.search);
-  const code = urlParams.get('code'); // 
+  const code = urlParams.get('code'); 
   if (code) {
-    const octokit = new Octokit();
     (async () => {
       try {
-        const { data } = await octokit.request('POST https://github.com/login/oauth', {
-          client_id: clientId,
-          client_secret: '438d22ad6d3d8db75258efdafbcda9a52c304fcd', 
-          code: code
-        }, {
-          headers: {
-            'Accept': 'application/json',
-           // 'Content-Type': 'application/json', 
-          },
-        });
+      const data = await gitPost();
         const accessToken = data.access_token;
         console.log('Access Token:', accessToken);
         if (accessToken) {
