@@ -1,0 +1,49 @@
+.github-box-style{
+  display: flex;
+  align-items: center;
+  gap:12px;
+  color: black;
+  margin-left: 13px;
+}
+.box{
+  width: 50px;
+  height: 50px;
+  background-color: black;
+  border-radius: 45%;
+}
+.button-container{
+ display: flex;
+ justify-content: flex-end;
+ margin-left: auto;
+}
+.button-style{
+  background-color: lightcoral;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+.container{
+  background-color: lightgrey;
+    width: 50vh; 
+     height: 200px;
+      border-radius: 5px;
+    color: black; 
+    text-align: center; 
+    padding-top: 12px;
+     font-size: 20px;
+     margin-top: 14px;
+}
+.container-box{
+  background-color: lightgrey;
+    width: 100vh; 
+     height: 200px;
+      border-radius: 5px;
+    color: black; 
+    text-align: center; 
+    padding-top: 12px;
+     font-size: 20px;
+     margin-top: 14px;
+}
+
+
+
